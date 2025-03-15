@@ -1,0 +1,27 @@
+package com.example.addressbook;
+
+import com.example.addressbook.config.RabbitMQConfig;
+import com.example.addressbook.service.MessageConsumer;
+import org.junit.jupiter.api.Test;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class AddressbookApplicationTests {
+
+//    @Test
+//    void contextLoads() {
+//    }
+@Autowired
+private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private MessageConsumer messageConsumer;
+
+    @Test
+    void testSendMessageAndReceive() {
+        String testMessage = "Test message";
+        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, testMessage);
+    }
+}
