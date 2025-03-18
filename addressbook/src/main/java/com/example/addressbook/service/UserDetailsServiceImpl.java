@@ -62,8 +62,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         String userId = UUID.randomUUID().toString();
         userRepository.save(new UserInfo(userId, userInfoDto.getUsername(), userInfoDto.getPassword(),userInfoDto.getEmail(), new HashSet<>()));
-//        messageProducer.sendMessage("New user registered: " + userInfoDto.getUsername());
-// After successful signup, create and send the message object
+
         UserRegistrationMessage message = new UserRegistrationMessage();
         message.setUsername(userInfoDto.getUsername());
         message.setEmail(userInfoDto.getEmail());
