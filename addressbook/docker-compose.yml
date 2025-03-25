@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  addressbook:
+    build: .
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/addressdb?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+      - SPRING_RABBITMQ_ADDRESSES=rabbitmq:5672
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_DATA_REDIS_PORT=6379
+    depends_on:
+      - mysql
+      - rabbitmq
+      - redis
+
+  mysql:
+    image: mysql:latest
+    env_file:
+      - .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=addressdb
+      - TZ=UTC
+      # Remove MYSQL_USER and MYSQL_PASSWORD
+
+  rabbitmq:
+    image: rabbitmq:latest
+
+  redis:
+    image: redis:latest
